@@ -3,14 +3,27 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.*;
+import pw.ohm.yb.lexer.YbBuilder;
+import pw.ohm.yb.lexer.YbLexer;
+import pw.ohm.yb.lexer.YbParser;
+import pw.ohm.yb.lexer.YbTokens;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException {
 //		new Main().run();
-		new Main().log();
+//		new Main().log();
+
+		final YbLexer ybLexer = new YbLexer(new FileReader(new File("/Users/volyx/Projects/test-antrl4/src/main/antlr4/build.yb")));
+
+		YbParser parser = new YbParser();
+
+		parser.parse(null, new YbBuilder(ybLexer));
 
 		System.out.println("done");
 
@@ -80,7 +93,7 @@ public class Main {
 
 			@Override
 			public void visitErrorNode(ErrorNode node) {
-				System.out.println("Main.visitErrorNode " + node.getText());
+//				System.out.println("Main.visitErrorNode " + node.getText());
 			}
 
 			@Override
@@ -94,7 +107,6 @@ public class Main {
 			}
 		};
 		walker.walk(listener, tree);
-
 
 
 	}
@@ -125,22 +137,22 @@ public class Main {
 
 			@Override
 			public void enterEveryRule(ParserRuleContext ctx) {
-				System.out.println("enterEveryRule");
+//				System.out.println("enterEveryRule");
 			}
 
 			@Override
 			public void exitEveryRule(ParserRuleContext ctx) {
-				System.out.println("exitEveryRule");
+//				System.out.println("exitEveryRule");
 			}
 
 			@Override
 			public void enterR(HelloParser.RContext ctx) {
-				System.out.println("enterR");
+//				System.out.println("enterR");
 			}
 
 			@Override
 			public void exitR(HelloParser.RContext ctx) {
-				System.out.println("exitR");
+//				System.out.println("exitR");
 
 			}
 		};
