@@ -1,0 +1,1358 @@
+
+// attributes:
+//  #urlPart - will be ignored as parameter, added as url part. Url parts always required
+//  #quoted - will be quoted in in url, for default - string is not quoted
+//  #required - will throw exception on call if value not set
+//  #conflictWith(name) - control conflict parameters, will throw on value set
+//  #setValue(default) - it used for setter value when parameter type is 'boolInt'(without it value will 'true')
+//  #manyToOne - allow set more what one value for parameter, separator is comma
+
+@package = pw.ohm.smalldata.methods
+@urlBuilder = pw.ohm.yandex.common.util.UrlBuilder
+@abstract = true
+
+@modelPackage = pw.ohm.smalldata.model
+@itemBuilder = pw.ohm.yandex.common.parameterBuilder.base.ItemBuilderBase
+
+itemBuilder GetAppsBuilder
+{
+    @model = "Application[]"
+    @urlPattern = "/app"
+    @fieldRef = ""
+}
+
+itemBuilder GetAppIdBuilder
+{
+    @model = "Application"
+    @urlPattern = "/app/{0}"
+    @fieldRef = ""
+
+    #urlPart
+    int id
+}
+
+itemBuilder GetAppIdSourceNamesBuilder
+{
+    @model = "String[]"
+    @urlPattern = "/app/{0}/sources"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #protected
+    #transient
+    #required
+    [source, campaign, adgroup] type
+
+    #protected
+    #transient
+    string source
+
+    #protected
+    #transient
+    string campaign
+}
+
+itemBuilder PutAppIdSourceNames
+{
+    @model = "Boolean"
+    @urlPattern = "/app/{0}/sources"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #protected
+    #transient
+    #required
+    "ApplicationSourceCampaignGroup[]" sourceGroup
+
+}
+
+itemBuilder PutAppBuilder
+{
+    @model = "Application"
+    @urlPattern = "/app"
+    @fieldRef = ""
+
+    boolInt preview
+
+    #protected
+    #transient
+    #required
+    "ApplicationPut" app
+}
+
+itemBuilder PatchAppBuilder
+{
+    @model = "Application"
+    @urlPattern = "/app/{0}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #protected
+    #transient
+    #required
+    "Application" app
+}
+
+itemBuilder DeleteAppBuilder
+{
+    @model = "Boolean"
+    @urlPattern = "/app/{0}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+}
+
+itemBuilder PutDataSource
+{
+    @model = "DataSource"
+    @urlPattern = "/app/{0}/idProvider"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #protected
+    #transient
+    #required
+    "DataSource" idProvider
+}
+
+itemBuilder GetDataSourceList
+{
+    @model = "DataSource[]"
+    @urlPattern = "/app/{0}/idProvider"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+}
+
+itemBuilder GetDataSource
+{
+    @model = "DataSource"
+    @urlPattern = "/app/{0}/idProvider/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int providerId
+}
+
+itemBuilder PatchDataSource
+{
+    @model = "DataSource"
+    @urlPattern = "/app/{0}/idProvider/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int providerId
+
+    #protected
+    #transient
+    #required
+    "DataSource" idProvider
+}
+
+itemBuilder DeleteDataSource
+{
+    @model = "Boolean"
+    @urlPattern = "/app/{0}/idProvider/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int id
+}
+
+itemBuilder PutAdsAccount
+{
+    @model = "AdsAccount"
+    @urlPattern = "/app/{0}/idExporter"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #protected
+    #transient
+    #required
+    "AdsAccount" idExporter
+}
+
+
+itemBuilder GetAdsAccountList
+{
+    @model = "AdsAccount[]"
+    @urlPattern = "/app/{0}/idExporter"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+}
+
+itemBuilder GetAdsAccount
+{
+    @model = "AdsAccount"
+    @urlPattern = "/app/{0}/idExporter/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int exporterId
+}
+
+itemBuilder PatchAdsAccount
+{
+    @model = "AdsAccount"
+    @urlPattern = "/app/{0}/idExporter/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int exporterId
+
+    #protected
+    #transient
+    #required
+    "AdsAccount" idExporter
+}
+
+itemBuilder DeleteAdsAccount
+{
+    @model = "Boolean"
+    @urlPattern = "/app/{0}/idExporter/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int id
+}
+
+itemBuilder PostAdsAccountInstanceBuilder {
+    @model = "AdsAccountInstance"
+    @urlPattern = "/app/{0}/idExporter/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int exporterId
+
+    #protected
+    #transient
+    #required
+    "AdsAccountInstance" adsAccountInstance
+}
+
+itemBuilder PatchAdsAccountInstanceBuilder {
+    @model = "AdsAccountInstance"
+    @urlPattern = "/app/{0}/idExporter/{1}/{2}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int exporterId
+
+    #urlPart
+    int exporterInstanceId
+
+    #protected
+    #transient
+    #required
+    "AdsAccountInstance" adsAccountInstance
+}
+
+itemBuilder GetAppAuditoriesBuilder
+{
+    @model = "Auditory[]"
+    @urlPattern = "/app/{0}/auditory"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+}
+
+itemBuilder PutAppAuditoryBuilder
+{
+    @model = "Auditory"
+    @urlPattern = "/app/{0}/auditory"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #protected
+    #transient
+    #required
+    string name
+
+   	#protected
+    #transient
+   "pw.ohm.smalldata.model.filter.FilterType" type
+
+   	#protected
+    #transient
+    "java.util.Map<String, String>" props
+}
+
+itemBuilder PatchAppAuditory
+{
+    @model = "Auditory"
+    @urlPattern = "/app/{0}/auditory/{1}/patch"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int auditoryId
+
+    #protected
+    #transient
+    #required
+    "Auditory" auditory
+}
+
+itemBuilder GetAppAuditoryBuilder
+{
+    @model = "Auditory"
+    @urlPattern = "/app/{0}/auditory/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int auditoryId
+}
+
+itemBuilder EditAppAuditoryBuilder
+{
+    @model = "Auditory"
+    @urlPattern = "/app/{0}/auditory/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int auditoryId
+
+    #protected
+    #transient
+    #required
+    string name
+
+    #protected
+    #transient
+    "java.util.Map<String, String>" props
+}
+
+itemBuilder DeleteAppAuditoryBuilder
+{
+    @model = "Boolean"
+    @urlPattern = "/app/{0}/auditory/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int auditoryId
+}
+
+itemBuilder PutDataSourceInstance
+{
+    @model = "DataSourceInstance"
+    @urlPattern = "/app/{0}/auditory/{1}/idProvider/{2}/attach"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int auditoryId
+
+    #urlPart
+    int providerId
+
+    #protected
+    #transient
+    #required
+    "java.util.Map<String, String>" properties
+}
+
+itemBuilder GetDataSourceInstance
+{
+    @model = "DataSourceInstance"
+    @urlPattern = "/app/{0}/auditory/{1}/idProvider/{2}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int auditoryId
+
+    #urlPart
+    int providerId
+}
+
+itemBuilder DeleteDataSourceInstance
+{
+    @model = "Boolean"
+    @urlPattern = "/app/{0}/auditory/{1}/idProvider/{2}/detach"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int auditoryId
+
+    #urlPart
+    int providerId
+}
+
+itemBuilder PutAdsAccountInstance
+{
+    @model = "AdsAccountInstance"
+    @urlPattern = "/app/{0}/auditory/{1}/idExporter/{2}/attach"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int auditoryId
+
+    #urlPart
+    int providerId
+
+    #protected
+    #transient
+    #required
+    "java.util.Map<String, String>" properties
+}
+
+itemBuilder GetAdsAccountInstance
+{
+    @model = "AdsAccountInstance"
+    @urlPattern = "/app/{0}/auditory/{1}/idExporter/{2}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int auditoryId
+
+    #urlPart
+    int providerId
+}
+
+itemBuilder DeleteAdsAccountInstance
+{
+    @model = "Boolean"
+    @urlPattern = "/app/{0}/auditory/{1}/idExporter/{2}/detach"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int auditoryId
+
+    #urlPart
+    int providerId
+}
+
+itemBuilder PostUploadBuilder
+{
+    @model = "Batch"
+    @urlPattern = "/app/{0}/auditory/{1}/upload/{2}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int auditoryId
+
+    #urlPart
+    [txt, csv] type
+
+    #protected
+    #transient
+    #required
+    "java.io.File" file
+
+    #quoted
+    string separator
+
+    int columnNumber
+}
+
+itemBuilder PostUploadByUrlBuilder
+{
+    @model = "Batch"
+    @urlPattern = "/app/{0}/auditory/{1}/uploadByUrl/{2}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int auditoryId
+
+    #urlPart
+    [txt, csv] type
+
+    #protected
+    #transient
+    #required
+    "UploadByUrl" info
+}
+
+itemBuilder PostCsvSampleBuilder
+{
+    @model = "String[][]"
+    @urlPattern = "/upload/csvSample"
+    @fieldRef = ""
+
+    #protected
+    #transient
+    #required
+    "CsvSamplePost" csvSample
+}
+
+itemBuilder GetBatchBuilder
+{
+    @model = "Batch[]"
+    @urlPattern = "/batch"
+    @fieldRef = ""
+}
+
+itemBuilder GetBatchIdBuilder
+{
+    @model = "Batch"
+    @urlPattern = "/batch/{0}"
+    @fieldRef = ""
+
+    #urlPart
+    int id
+}
+
+itemBuilder GetIdExporterRunBuilder
+{
+    @model = "Batch"
+    @urlPattern = "/app/{0}/auditory/{1}/idExporter/{2}/run"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int auditoryId
+
+    #urlPart
+    int id
+
+    string fromDate
+
+    string toDate
+}
+
+itemBuilder GetInfoIdExportersBuilder
+{
+    @model = "ProviderInfo[]"
+    @urlPattern = "/info/idExporters"
+    @fieldRef = ""
+}
+
+itemBuilder GetInfoIdProvidersBuilder
+{
+    @model = "ProviderInfo[]"
+    @urlPattern = "/info/idProviders"
+    @fieldRef = ""
+}
+
+itemBuilder GetAuditoryStatisticBuilder
+{
+    @model = "StatisticContainer"
+    @urlPattern = "/app/{0}/auditory/{1}/statistics"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int auditoryId
+}
+
+itemBuilder PutAuditoryStatistic
+{
+    @model = "AuditoryDates"
+    @urlPattern = "/app/{0}/auditory/{1}/statistics"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int auditoryId
+
+    #protected
+    #transient
+    #required
+    "AuditoryDates" auditoryDates
+}
+
+itemBuilder PutFacebookAdsAccountBuilder
+{
+    @model = "FacebookAdsAccount"
+    @urlPattern = "/ads/app/{0}/facebook"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #protected
+    #transient
+    #required
+    "FacebookAdsAccount" account
+}
+
+itemBuilder GetFacebookAdsAccountBuilder
+{
+     @model = "FacebookAdsAccount"
+     @urlPattern = "/ads/app/{0}/facebook"
+     @fieldRef = ""
+
+     #urlPart
+     int appId
+}
+
+itemBuilder GetAuditoriesByProviderBuilder
+{
+     @model = "Auditory[]"
+     @urlPattern = "/ads/{0}/provider/{1}"
+     @fieldRef = ""
+
+     #urlPart
+     int appId
+
+     #urlPart
+     int providerId
+}
+
+itemBuilder GetAuditoriesByExporterBuilder
+{
+     @model = "Auditory[]"
+     @urlPattern = "/ads/{0}/exporter/{1}"
+     @fieldRef = ""
+
+     #urlPart
+     int appId
+
+     #urlPart
+     int exporterId
+}
+
+itemBuilder GetAppPredictionsBuilder
+{
+    @model = "Prediction[]"
+    @urlPattern = "/app/{0}/prediction"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+}
+
+itemBuilder PatchAppPredictionBuilder
+{
+    @model = "Prediction"
+    @urlPattern = "/app/{0}/prediction/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int predictionId
+
+    #protected
+    #transient
+    #required
+    "Prediction" prediction
+}
+
+itemBuilder PutAppPredictionBuilder
+{
+    @model = "Prediction"
+    @urlPattern = "/app/{0}/prediction"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+
+    #protected
+    #transient
+    #required
+    "Prediction" prediction
+}
+
+itemBuilder GetAppPredictionBuilder
+{
+      @model = "Prediction"
+      @urlPattern = "/app/{0}/prediction/{1}"
+      @fieldRef = ""
+
+      #urlPart
+      int appId
+
+      #urlPart
+      int predictionId
+}
+
+itemBuilder DeleteAppPredictionBuilder
+{
+      @model = "Boolean"
+      @urlPattern = "/app/{0}/prediction/{1}"
+      @fieldRef = ""
+
+      #urlPart
+      int appId
+
+      #urlPart
+      int predictionId
+}
+
+itemBuilder StartPrediction
+{
+      @model = "Boolean"
+      @urlPattern = "/app/{0}/prediction/{1}/start/{2}"
+      @fieldRef = ""
+
+      #urlPart
+      int appId
+
+      #urlPart
+      int predictionId
+
+      #urlPart
+      string date
+}
+
+itemBuilder GetAppPredictionStatsBuilder
+{
+      @model = "PredictionStats[]"
+      @urlPattern = "/app/{0}/prediction/{1}/stats/{2}"
+      @fieldRef = ""
+
+      #urlPart
+      int appId
+
+      #urlPart
+      int predictionId
+
+      #urlPart
+      [tracker_name, device_model, region, os_version, date] type
+
+      #protected
+      #transient
+      #required
+      string from
+
+      #protected
+      #transient
+      #required
+      string to
+}
+
+
+itemBuilder GetAppConversionUploadersBuilder
+{
+    @model = "ConversionUploader[]"
+    @urlPattern = "/app/{0}/conversionUploaders"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #required
+    "ConversionUploader.Type" type
+}
+
+itemBuilder PutAppConversionUploaderBuilder
+{
+    @model = "ConversionUploader"
+    @urlPattern = "/app/{0}/conversionUploaders"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #protected
+    #required
+    #transient
+    "ConversionUploader" conversionUploader
+}
+
+itemBuilder AttachAppConversionUploaderBuilder
+{
+   @model = "ConversionUploader"
+   @urlPattern = "/app/{0}/conversionUploaders/{1}/attach/{2}"
+   @fieldRef = ""
+
+   #urlPart
+   int appId
+
+   #urlPart
+   int conversionUploaderId
+
+   #urlPart
+   int exporterId
+
+   #protected
+   #transient
+   #required
+   "java.util.Map<String, String>" properties
+}
+
+itemBuilder GetAppConversionUploaderBuilder {
+    @model = "ConversionUploader"
+    @urlPattern = "/app/{0}/conversionUploaders/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int conversionUploaderId
+}
+
+itemBuilder PatchAppConversionUploaderBuilder {
+    @model = "ConversionUploader"
+    @urlPattern = "/app/{0}/conversionUploaders/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int conversionUploaderId
+
+    #protected
+    #required
+    #transient
+    "ConversionUploader" conversionUploader
+}
+
+itemBuilder GetAppConversionByStatus {
+    @model = "ConversionUploader[]"
+    @urlPattern = "/app/{0}/conversionUploaders/status/{1}"
+
+
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    "ConversionStatus" status
+}
+
+itemBuilder GetAdsAccountInstanceByConversion
+{
+    @model = "AdsAccountInstance"
+    @urlPattern = "/app/{0}/conversionUploaders/{1}/idExporter/{2}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int conversionId
+
+    #urlPart
+    int exporterId
+}
+
+
+itemBuilder DeleteAppConversionUploaderBuilder {
+    @model = "Void"
+    @urlPattern = "/app/{0}/conversionUploaders/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int conversionUploaderId
+}
+
+
+itemBuilder GetAppCampaignsBuilder
+{
+    @model = "Campaign[]"
+    @urlPattern = "/app/{0}/campaign"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+}
+
+itemBuilder PutAppCampaignBuilder
+{
+    @model = "Campaign"
+    @urlPattern = "/app/{0}/campaign"
+    @fieldRef = ""
+
+    #urlPart
+    #protected
+    int appId
+
+    #protected
+    #transient
+    #required
+    "Campaign" campaign
+}
+
+itemBuilder PatchAppCampaignBuilder
+{
+    @model = "Campaign"
+    @urlPattern = "/app/{0}/campaign/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    #protected
+    int appId
+
+    #urlPart
+    #protected
+    int campaignId
+
+    #protected
+    #transient
+    #required
+    "Campaign" campaign
+}
+
+
+itemBuilder GetAppCampaignBuilder
+{
+      @model = "Campaign"
+      @urlPattern = "/app/{0}/campaign/{1}"
+      @fieldRef = ""
+
+      #urlPart
+      int appId
+
+      #urlPart
+      int campaignId
+}
+
+itemBuilder ChangeAppCampaignStatusBuilder
+{
+    @model = "Campaign"
+    @urlPattern = "/app/{0}/campaign/{1}/status"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int campaignId
+
+
+    #protected
+    #transient
+    #required
+    "CampaignStatus" status
+}
+
+
+itemBuilder DeleteAppCampaignBuilder
+{
+      @model = "Boolean"
+      @urlPattern = "/app/{0}/campaign/{1}"
+      @fieldRef = ""
+
+      #urlPart
+      int appId
+
+      #urlPart
+      int campaignId
+}
+
+itemBuilder GetAppCampaignStatsBuilder
+{
+      @model = "CampaignStats[]"
+      @urlPattern = "/app/{0}/campaign/{1}/stats"
+      @fieldRef = ""
+
+      #urlPart
+      int appId
+
+      #urlPart
+      int campaignId
+
+      #protected
+      #transient
+      #required
+      string from
+
+      #protected
+      #transient
+      #required
+      string to
+}
+
+itemBuilder GetAdsCampaign
+{
+    @model = "AdsCampaign"
+    @urlPattern = "/app/{0}/campaign/{1}/adscampaign/{2}"
+    @fieldRef = ""
+
+    #urlPart
+    #protected
+    int appId
+
+    #urlPart
+    #protected
+    int campaignId
+
+    #urlPart
+    #protected
+    int adsCampaignId
+}
+
+itemBuilder PutAdsCampaign
+{
+    @model = "AdsCampaign"
+    @urlPattern = "/app/{0}/campaign/{1}/adscampaign"
+    @fieldRef = ""
+
+    #urlPart
+    #protected
+    int appId
+
+    #urlPart
+    int campaignId
+
+    #protected
+    #transient
+    #required
+    "AdsCampaign" adsCampaign
+}
+
+itemBuilder DeleteAdsCampaign
+{
+    @model = "Boolean"
+    @urlPattern = "/app/{0}/campaign/{1}/adscampaign/{2}"
+    @fieldRef = ""
+
+    #urlPart
+    #protected
+    int appId
+
+    #urlPart
+    #protected
+    int campaignId
+
+    #urlPart
+    #protected
+    int adsCampaignId
+}
+
+itemBuilder GetCreativeBuilder
+{
+    @model = "Creative"
+    @urlPattern = "/creative/{0}"
+    @fieldRef = ""
+
+    #urlPart
+    int creativeId
+}
+
+itemBuilder GetCreativesBuilder
+{
+    @model = "Creative[]"
+    @urlPattern = "/creative"
+    @fieldRef = ""
+}
+
+itemBuilder PutCreativeBuilder
+{
+    @model = "Creative"
+    @urlPattern = "/creative"
+    @fieldRef = ""
+
+    #protected
+    #transient
+    #required
+    "Creative" creative
+}
+
+
+itemBuilder DeleteCreativeBuilder
+{
+      @model = "Boolean"
+      @urlPattern = "/creative/{0}"
+      @fieldRef = ""
+
+      #urlPart
+      int creativeId
+}
+
+
+itemBuilder GetMetric
+{
+    @model = "Metric"
+    @urlPattern = "/metrics"
+    @fieldRef = ""
+
+    #protected
+    #transient
+    #required
+    "Metric" metric
+}
+
+itemBuilder GetMetricList
+{
+    @model = "Metric[]"
+    @urlPattern = "/metrics/{0}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+}
+
+itemBuilder PostListMetricValuesBuilder
+{
+    @model = "MetricValues"
+    @urlPattern = "/metrics/{0}/listValues/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    [mainEvent90, mainEvent30, crEventOrganic] metricType
+
+    #protected
+    #transient
+    #required
+    "java.util.List<String>" keys
+}
+
+itemBuilder PutMetric
+{
+    @model = "Metric"
+    @urlPattern = "/metrics"
+    @fieldRef = ""
+
+    #protected
+    #transient
+    #required
+    "Metric" metric
+}
+
+
+itemBuilder DeleteMetric
+{
+      @model = "Boolean"
+      @urlPattern = "/metrics/delete"
+      @fieldRef = ""
+
+    #protected
+    #transient
+    #required
+    "Metric" metric
+}
+
+itemBuilder PutAdsCreative {
+
+    @model = "AdsCreative"
+    @urlPattern = "/adscreative"
+    @fieldRef = ""
+
+    #protected
+    #transient
+    #required
+    "AdsCreative" adsCreative
+}
+
+itemBuilder GetAdsCreativeList {
+    @model = "AdsCreative[]"
+    @urlPattern = "/adscreative/{0}"
+    @fieldRef = ""
+
+    #urlPart
+    int adsCampaignId
+}
+
+itemBuilder GetAdsCreative {
+    @model = "AdsCreative[]"
+    @urlPattern = "/adscreative/{0}/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int adsCampaignId
+
+    #urlPart
+    int creativeId
+}
+
+itemBuilder DeleteAdsCreative {
+    @model = "Boolean"
+    @urlPattern = "/adscreative/{0}"
+    @fieldRef = ""
+
+    #urlPart
+    int id
+}
+
+/////////////////////////////
+
+itemBuilder GetAppConversionEventsBuilder {
+    @model = "ConversionEvent[]"
+    @urlPattern = "/app/{0}/conversionEvents"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+}
+
+itemBuilder GetAppConversionEventsByStatusBuilder {
+    @model = "ConversionEvent[]"
+    @urlPattern = "/app/{0}/conversionEvents/byStatus/{1}"
+
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    "ConversionStatus" status
+}
+
+itemBuilder GetAppConversionEventBuilder {
+    @model = "ConversionEvent"
+    @urlPattern = "/app/{0}/conversionEvents/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int id
+}
+
+itemBuilder PostAppConversionEventBuilder {
+    @model = "ConversionEvent"
+    @urlPattern = "/app/{0}/conversionEvents"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #protected
+    #transient
+    #required
+    "ConversionEvent" conversionEvent
+}
+
+itemBuilder PutAppConversionEventBuilder {
+    @model = "ConversionEvent"
+    @urlPattern = "/app/{0}/conversionEvents/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int id
+
+    #protected
+    #transient
+    #required
+    "ConversionEvent" conversionEvent
+}
+
+itemBuilder DeleteAppConversionEventBuilder
+{
+    @model = "Boolean"
+    @urlPattern = "/app/{0}/conversionEvents/{1}"
+    @fieldRef = ""
+
+    #urlPart
+    int appId
+
+    #urlPart
+    int id
+}
+
+itemBuilder FindAppConversionEventByEventNameBuilder
+{
+ @model = "ConversionEvent"
+ @urlPattern = "/app/{0}/byEventName"
+ @fieldRef = ""
+
+ #urlPart
+ int appId
+
+ #protected
+ #transient
+ "EventName" eventName
+}
+
+itemBuilder ListAppConversionEventsByEventNameBuilder
+{
+ @model = "ConversionEvent[]"
+ @urlPattern = "/app/{0}/listByEventName"
+ @fieldRef = ""
+
+ #urlPart
+ int appId
+
+ #protected
+ #transient
+ "EventName" eventName
+}
+
+
+itemBuilder GetGeoReport
+{
+ @model = "GeoReport[]"
+ @urlPattern = "/getReports/{0}"
+ @fieldRef = ""
+
+ #urlPart
+ int appId
+}

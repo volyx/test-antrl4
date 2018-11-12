@@ -41,6 +41,14 @@ public class YbBuilder {
 	}
 
 	public Marker mark() {
+		try {
+			YbTokens ybTokens = ybLexer.advanceImpl();
+			while (ybTokens == YbTokens.WHITE_SPACE && ybTokens != null) {
+				ybTokens = ybLexer.advanceImpl();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return new Marker() {
 			@Override
 			public void done(YbTokens root) {
